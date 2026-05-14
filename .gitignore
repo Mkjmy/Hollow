@@ -1,0 +1,11 @@
+# Archives
+*.xpi
+*.tar.gz
+*.zip
+
+# System / OS files
+.DS_Store
+Thumbs.db
+
+# Potential logs
+*.log

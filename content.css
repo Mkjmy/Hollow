@@ -1,0 +1,25 @@
+/* Hide Shorts Shelf on Home & Subscriptions */
+ytd-rich-shelf-renderer[is-shorts],
+ytd-reel-shelf-renderer,
+grid-shelf-view-model:has(yt-section-header-view-model:has([aria-label*="Shorts"])) {
+    display: none !important;
+}
+
+/* Hide Shorts in Sidebar & Mini-Guide */
+ytd-guide-entry-renderer[entry-id="FEshorts"],
+ytd-mini-guide-entry-renderer[entry-id="FEshorts"] {
+    display: none !important;
+}
+
+/* Hide Shorts in Search Results */
+ytd-video-renderer:has([overlay-style="SHORTS"]),
+ytd-rich-item-renderer:has([overlay-style="SHORTS"]),
+ytd-video-renderer:has(a[href*="/shorts/"]),
+ytd-rich-item-renderer:has(a[href*="/shorts/"]) {
+    display: none !important;
+}
+
+/* Hide Shorts Tab on Channel Pages */
+yt-tab-shape[tab-title="Shorts"] {
+    display: none !important;
+}

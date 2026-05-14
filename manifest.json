@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Shorts Blocker",
+  "version": "1.0",
+  "description": "Blocks YouTube Shorts from your feed and redirects Shorts URLs to the normal player.",
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "YouTube Shorts Blocker"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://youtube.com/*",
+        "*://*.facebook.com/*",
+        "*://facebook.com/*",
+        "*://*.tiktok.com/*",
+        "*://tiktok.com/*"
+      ],
+      "css": ["content.css"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "yt-shorts-blocker@hollow.example.com"
+    }
+  }
+}
