@@ -1,16 +1,15 @@
 let isBlockingEnabled = true;
+let isTemporarilyDisabled = false;
 
-(function() {
+const applyEarlyHide = () => {
     const hostname = window.location.hostname;
     const url = window.location.href;
     const isTikTok = hostname.includes('tiktok.com');
     const isFB = hostname.includes('facebook.com') && !url.includes('/messages');
     
-    if (isTikTok || isFB) {
-        chrome.storage.local.get(['enabled', 'blockCount'], (data) => {
-            if (data.enabled !== false) {
-                const newCount = (data.blockCount || 0) + 1;
-                chrome.storage.local.set({ blockCount: newCount });
+    if ((isTikTok || isFB) && !document.getElementById('hollow-early-hide')) {
+        chrome.storage.local.get('enabled', (data) => {
+            if (data.enabled !== false && !isTemporarilyDisabled) {
                 const style = document.createElement('style');
                 style.id = 'hollow-early-hide';
                 style.innerHTML = `html { background: #020617 !important; } body { visibility: hidden !important; pointer-events: none !important; }`;
@@ -18,7 +17,8 @@ let isBlockingEnabled = true;
             }
         });
     }
-})();
+};
+applyEarlyHide();
 
 function updateSettings() {
     chrome.storage.local.get('enabled', (data) => {
@@ -28,13 +28,22 @@ function updateSettings() {
 }
 
 function handlePageLogic() {
+    if (isTemporarilyDisabled) {
+        removeGlobalOverlay();
+        return;
+    }
+
     const hostname = window.location.hostname;
     if (hostname.includes('youtube.com')) {
         if (isBlockingEnabled) hideShorts();
         else showAllShorts();
     } else if (hostname.includes('facebook.com') || hostname.includes('tiktok.com')) {
-        if (isBlockingEnabled) runGlobalBlocker();
-        else removeGlobalOverlay();
+        if (isBlockingEnabled) {
+            applyEarlyHide();
+            runGlobalBlocker();
+        } else {
+            removeGlobalOverlay();
+        }
     }
 }
 
@@ -54,6 +63,8 @@ let overlayHistory = [];
 let overlayHistoryIndex = -1;
 
 function runGlobalBlocker() {
+    if (isTemporarilyDisabled) return;
+
     const hostname = window.location.hostname;
     const url = window.location.href;
     if (hostname.includes('facebook.com') && url.includes('/messages')) {
@@ -163,7 +174,11 @@ function runGlobalBlocker() {
             }
         });
 
-        deactivateBtn.addEventListener('click', () => chrome.storage.local.set({ enabled: false }));
+        deactivateBtn.addEventListener('click', () => {
+            isTemporarilyDisabled = true;
+            removeGlobalOverlay();
+        });
+        
         const earlyHide = document.getElementById('hollow-early-hide');
         if (earlyHide) earlyHide.remove();
     }
@@ -184,8 +199,10 @@ async function handleOverlayCommand(fullCmd, container) {
     else if (cmd === 'stats') {
         const data = await chrome.storage.local.get('blockCount');
         output.innerText = `[DEFENSE METRICS]\nTikTok/FB blocks: ${data.blockCount || 0}\nEstimated time saved: ${(data.blockCount || 0) * 5} minutes`;
-    } else if (cmd === 'disable') { chrome.storage.local.set({ enabled: false }); output.innerText = "System deactivated. Protection offline."; }
-    else if (cmd === 'status') output.innerText = "System: ACTIVE\nLayer: STRICT_PROTECTION";
+    } else if (cmd === 'disable') {
+        isTemporarilyDisabled = true;
+        removeGlobalOverlay();
+    } else if (cmd === 'status') output.innerText = "System: ACTIVE\nLayer: STRICT_PROTECTION";
     else if (cmd === 'clear') { container.innerHTML = ''; return; }
     else if (cmd === 'exit') { window.location.href = "https://www.google.com"; return; }
     else { output.innerText = `sh: command not found: ${cmd}`; output.style.color = '#f7768e'; }
