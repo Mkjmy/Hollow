@@ -1,3 +1,4 @@
+
 # Hollow Guard
 
 A browser extension for Firefox that helps you stay focused by blocking access to short-form content on YouTube, TikTok, and Facebook. It uses a terminal-inspired interface and can be force-installed via policies to prevent easy removal.
@@ -28,13 +29,4 @@ The extension provides an interactive terminal both in the popup and on blocked 
 - **Tab** or **ArrowRight**: Autocomplete the current command.
 - **ArrowUp** / **ArrowDown**: Cycle through your command history.
 
-## Installation
 
-### Firefox (Force Install)
-
-This method uses Firefox's policy system to permanently install the extension, making it difficult to remove without administrator access.
-
-1.  Place the `hollow-guard.xpi` file in a permanent location (e.g., `/home/your-username/hollow-guard.xpi`).
-2.  Create the distribution directory:
-    ```bash
-    sudo mkdir -p /usr/lib/firefox/distribution/
