@@ -1,44 +1,40 @@
 # Hollow Guard
 
-A minimalist terminal interface for people who accidentally click on TikTok or YouTube Shorts and immediately regret their life choices.
+A browser extension for Firefox that helps you stay focused by blocking access to short-form content on YouTube, TikTok, and Facebook. It uses a terminal-inspired interface and can be force-installed via policies to prevent easy removal.
 
-## Purpose
-This extension turns your browser into a bit of a jerk whenever you try to access brain-rotting content. It hides Shorts and replaces TikTok/Facebook with a draggable terminal that questions your identity and life goals.
+## Features
+
+- **YouTube Shorts blocking**: Hides Shorts sections from your feed and automatically redirects Shorts URLs to the normal video player.
+- **TikTok & Facebook blocking**: Replaces the entire page with an interactive terminal overlay, except for Facebook Messenger.
+- **Terminal-inspired interface**: A draggable terminal window provides command-based interaction and real-time feedback.
+- **Persistent installation**: Can be force-installed through Firefox policies so it cannot be removed through the normal add-ons UI.
 
 ## Commands
-The popup and the block screens are fully interactive. Type these to feel like a hacker:
-- guard [on|off]: Toggle the entire defense system.
-- status: Check if your ideology is still intact.
-- stats: See how many times you almost failed yourself today.
-- sudo [command]: Try to bypass the rules (spoiler: it won't work).
-- clear: Clean the screen after a session of self-reflection.
-- disable: The coward's way out (turns off blocking).
-- exit: Go back to being productive.
 
-## Navigation
-- Tab / ArrowRight: Complete the command because typing is hard.
-- ArrowUp / ArrowDown: Cycle through your past mistakes (command history).
+The extension provides an interactive terminal both in the popup and on blocked pages. Type these commands to interact with it:
 
-## How to Install (Permanent Discipline)
-1. Ensure `hollow-guard.xpi` is located at a permanent path (e.g., `/home/<your_username>/hollow-guard.xpi`).
-2. Create the distribution directory:
-   `sudo mkdir -p /usr/lib/firefox/distribution/`
-3. Create or edit the policy file:
-   `sudo nano /usr/lib/firefox/distribution/policies.json`
-4. Paste the following configuration (replace the path with your actual file location):
-```json
-{
-  "policies": {
-    "ExtensionSettings": {
-      "yt-shorts-blocker@hollow.example.com": {
-        "installation_mode": "force_installed",
-        "install_url": "file:///full/path/to/your/hollow-guard.xpi"
-      }
-    }
-  }
-}
-```
-5. Restart Firefox. If it worked, you can't easily uninstall this. That is the point.
+| Command | Description |
+|---------|-------------|
+| `guard [on\|off]` | Enable or disable the entire blocking system. |
+| `status` | Display the current protection status. |
+| `stats` | Show the number of blocks and estimated time saved. |
+| `sudo [command]` | Attempt to bypass the restrictions (this will fail by design). |
+| `clear` | Clear the terminal output. |
+| `disable` | Temporarily turn off blocking. |
+| `exit` | Navigate away from the blocked page to a productive site. |
 
-Stay focused. Don't be a consumer of trash.
-# Hollow
+## Keyboard Shortcuts
+
+- **Tab** or **ArrowRight**: Autocomplete the current command.
+- **ArrowUp** / **ArrowDown**: Cycle through your command history.
+
+## Installation
+
+### Firefox (Force Install)
+
+This method uses Firefox's policy system to permanently install the extension, making it difficult to remove without administrator access.
+
+1.  Place the `hollow-guard.xpi` file in a permanent location (e.g., `/home/your-username/hollow-guard.xpi`).
+2.  Create the distribution directory:
+    ```bash
+    sudo mkdir -p /usr/lib/firefox/distribution/
