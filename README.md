@@ -20,19 +20,19 @@ The popup and the block screens are fully interactive. Type these to feel like a
 - ArrowUp / ArrowDown: Cycle through your past mistakes (command history).
 
 ## How to Install (Permanent Discipline)
-1. Ensure `hollow-guard.xpi` is located at `/home/jmy/Hollow/hollow-guard.xpi`.
+1. Ensure `hollow-guard.xpi` is located at a permanent path (e.g., `/home/<your_username>/hollow-guard.xpi`).
 2. Create the distribution directory:
    `sudo mkdir -p /usr/lib/firefox/distribution/`
 3. Create or edit the policy file:
    `sudo nano /usr/lib/firefox/distribution/policies.json`
-4. Paste the following configuration:
+4. Paste the following configuration (replace the path with your actual file location):
 ```json
 {
   "policies": {
     "ExtensionSettings": {
       "yt-shorts-blocker@hollow.example.com": {
         "installation_mode": "force_installed",
-        "install_url": "file:///home/jmy/Hollow/hollow-guard.xpi"
+        "install_url": "file:///full/path/to/your/hollow-guard.xpi"
       }
     }
   }
